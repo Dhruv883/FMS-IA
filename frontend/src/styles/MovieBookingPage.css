@@ -1,0 +1,53 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin: 0 auto;
+}
+
+.info-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10vh;
+}
+
+.name-date {
+  display: flex;
+  flex-direction: row;
+  width: 30vw;
+  justify-content: space-between;
+}
+
+.movie-name {
+  margin-right: 5rem;
+}
+
+.navbar {
+  height: 4rem;
+  border: black 1px solid;
+  margin-bottom: 20px;
+}
+
+.book-btn {
+  min-width: 50px;
+}
+
+.seating {
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  justify-content: space-between;
+}
+
+.seats-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.screen {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
