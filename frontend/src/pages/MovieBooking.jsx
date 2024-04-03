@@ -2,10 +2,26 @@ import React, { useState } from 'react'
 import '../styles/MovieBookingPage.css'
 import { Input, Button } from '@nextui-org/react'
 
-export const MovieBooking = () => {
-  const [date, setDate] = useState()
-  const [selectedMovie, setSelectedMovie] = useState(null)
-  const [seats, setSeats] = useState([])
+const MovieBooking = () => {
+  const selectedMovie = 'Shinchan';
+  const [seats, setSeats] = useState(
+    Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => false))
+  )
+
+  const price = 20
+
+  const calculatePrice = () => {
+    const selectedSeatsCount = seats.reduce((total, row) => {
+      return total + row.filter(seat => seat).length
+    }, 0)
+    return selectedSeatsCount * price // Adjust the price per seat as needed
+  }
+
+  const handleSeatClick = (rowIndex, colIndex) => {
+    const newSeats = [...seats]
+    newSeats[rowIndex][colIndex] = !newSeats[rowIndex][colIndex]
+    setSeats(newSeats)
+  }
 
   return (
     <>
@@ -15,23 +31,46 @@ export const MovieBooking = () => {
           <div className='name-date'>
             <div className='name'>
               <div className='name-field'>Movie Name</div>
-              <div className='movie-name'>Movie Name</div>
-            </div>
-            <div className='movie-date'>
-              <Input label='Date' type='date' />
+              <div className='movie-name'>{selectedMovie}</div>
             </div>
           </div>
           <div className='book-btn'>
-            <Button shadow color='primary' size='lg'>
-              Book Now
-            </Button>
+            <div className='button-container'>
+              <Button shadow color='primary' size='lg'>
+                Book Now
+              </Button>
+              <div className='price'>${calculatePrice()}</div>
+            </div>
           </div>
         </div>
         <div className='seating'>
-          <div className='seats-grid'>Seats</div>
+          <div className='seats-grid'>
+            {seats.map((row, rowIndex) => (
+              <ul key={rowIndex} className='row'>
+                {row.map((seat, colIndex) => {
+                  const seatId =
+                    String.fromCharCode(rowIndex + 65) + (colIndex + 1)
+                  return (
+                    <li
+                      key={colIndex}
+                      className={`seat ${seat ? 'selected' : ''} ${
+                        seat ? '' : 'booked'
+                      }`}
+                      id={seatId}
+                      onClick={() => handleSeatClick(rowIndex, colIndex)}
+                    >
+                      {seatId}
+                    </li>
+                  )
+                })}
+              </ul>
+            ))}
+          </div>
           <div className='screen'>Screen</div>
         </div>
       </div>
     </>
   )
 }
+
+export default MovieBooking

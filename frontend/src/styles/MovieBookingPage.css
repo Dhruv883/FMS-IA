@@ -8,8 +8,8 @@
 .info-title {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 10vh;
+  justify-content: center;
+  margin-bottom: 5vh;
 }
 
 .name-date {
@@ -31,23 +31,67 @@
 
 .book-btn {
   min-width: 50px;
+  display: flex;
+  align-items: center; /* Center align the price with the button */
+}
+
+.price {
+  margin-left: 10px; /* Add margin between the button and the price */
 }
 
 .seating {
   display: flex;
   flex-direction: column;
   height: 70vh;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .seats-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  background-color: white;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+}
+
+.seat {
+  list-style: none;
+  background-color: lightgray;
+  border: 1px solid black;
+  padding: 10px;
+  margin: 10px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 5px;
 }
 
 .screen {
   display: flex;
-  flex-wrap: wrap;
+  color: white;
+  background-color: grey;
+  width: 15vw;
+  height: 2.5vh;
   justify-content: center;
+}
+
+.seat-type {
+  width: 20vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.type {
+  display: flex;
+  margin-left: 23px;
+  width: 15px;
+  border: black 0.5px solid;
+}
+
+.booked {
+  background-color: darkgrey;
+}
+
+.selected {
+  background-color: green;
 }
