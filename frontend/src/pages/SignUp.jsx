@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { Input, Button } from "@nextui-org/react";
 
 export const SignUp = () => {
@@ -28,7 +28,7 @@ export const SignUp = () => {
     return validatePhone(data.phone) ? false : true;
   }, [data.phone]);
 
-  const validateCPass = (value) => data.password == data.cpassword;
+  const validateCPass = () => data.password == data.cpassword;
   const isInvalidCPass = useMemo(() => {
     return validateCPass(data.cpassword) ? false : true;
   }, [data.cpassword]);

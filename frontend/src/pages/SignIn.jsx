@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { Input, Button } from "@nextui-org/react";
 
 export const SignIn = () => {
