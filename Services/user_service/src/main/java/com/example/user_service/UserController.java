@@ -1,11 +1,14 @@
 package com.example.user_service;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/user")
@@ -38,4 +41,11 @@ public class UserController {
             return new ResponseEntity<User>(authUser, HttpStatus.OK);
       }
 
+      @GetMapping("/{id}")
+      public ResponseEntity<User> userDetails(@PathVariable ObjectId id) {
+            User user = userService.getDetails(id);
+            if (user == null)
+                  return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<User>(user, HttpStatus.OK);
+      }
 }

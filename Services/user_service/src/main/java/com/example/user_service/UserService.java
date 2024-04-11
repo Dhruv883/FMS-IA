@@ -1,5 +1,6 @@
 package com.example.user_service;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -25,12 +26,17 @@ public class UserService {
 
       public User loginUser(String email, String password) {
             User user = userRepository.findByEmail(email);
-            if (user == null) {
-                  return null;
-            }
-
             return user;
+      }
 
+      public User getDetails(ObjectId id) {
+            User user = userRepository.findById(id).get();
+            return user;
+      }
+
+      public User getBookings(ObjectId id) {
+            User user = userRepository.findById(id).get();
+            return user;
       }
 
 }
