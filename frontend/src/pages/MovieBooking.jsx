@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import '../styles/MovieBookingPage.css'
 import { Button } from '@nextui-org/react'
+import SeatSelectionModal from '../components/SeatSelectionModal.jsx'
 
 const MovieBooking = () => {
   const selectedMovie = 'Shinchan'
+  const [showModal, setShowModal] = useState(false)
   const [seats, setSeats] = useState(
     Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => false))
   )
@@ -29,6 +31,26 @@ const MovieBooking = () => {
     return selectedSeatsCount * price
   }
 
+  const toggleModal = () => {
+    const anySeatSelected = seats.some(row => row.some(seat => seat))
+    if (anySeatSelected) {
+      setShowModal(!showModal)
+    } else {
+      alert('Please select at least one seat.')
+    }
+  }
+
+  const getSelectedSeatIds = () => {
+    return seats
+      .flatMap((row, rowIndex) =>
+        row.map(
+          (seat, colIndex) =>
+            seat && String.fromCharCode(rowIndex + 65) + (colIndex + 1)
+        )
+      )
+      .filter(Boolean)
+  }
+
   const handleSeatClick = (rowIndex, colIndex) => {
     if (!bookedSeats[rowIndex][colIndex]) {
       const newSeats = [...seats]
@@ -37,10 +59,49 @@ const MovieBooking = () => {
     }
   }
 
+  const handleBookNow = async () => {
+    const selectedSeatIds = getSelectedSeatIds()
+    if (selectedSeatIds.length === 0) {
+      alert('Please select at least one seat.')
+      return
+    }
+
+    try {
+      const response = await fetch('/api/user/seats/book', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          seatIds: selectedSeatIds,
+          userId: 'user123' //fetch uesr id
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to book seats.')
+      }
+
+      const data = await response.json()
+      console.log(data)
+
+      window.location.href = '/confirm-seat'
+    } catch (error) {
+      console.error('Error booking seats:', error)
+      alert('Failed to book seats. Please try again.')
+    }
+  }
+
   return (
     <>
-      <div className='navbar'>Navbar</div>
-      <div className='container'>
+      <SeatSelectionModal
+        showModal={showModal}
+        toggleModal={toggleModal}
+        seats={seats}
+        getSelectedSeatIds={getSelectedSeatIds}
+        handleBookNow={handleBookNow}
+      />
+      <div className='container pt-32'>
         <div className='info-title'>
           <div className='name-date'>
             <div className='name'>
@@ -51,12 +112,7 @@ const MovieBooking = () => {
           </div>
           <div className='book-btn'>
             <div className='button-container'>
-              <Button
-                shadow
-                color='primary'
-                size='lg'
-                onClick={() => (window.location.href = '/confirm-seat')}
-              >
+              <Button shadow color='primary' size='lg' onClick={toggleModal}>
                 Book Now
               </Button>
               <div className='price'>${calculatePrice()}</div>

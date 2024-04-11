@@ -2,7 +2,6 @@ package com.example.seatservice;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ public class SeatService {
 
     //get all available seats of particular movie
 	public List<Seat> getAvailableSeats(String movieId, String userId) {
-        return seatRepository.findByMovieIdAndIsAvailableAndUserIdNot(movieId, true, userId);
+        return seatRepository.findByMovieIdAndIsAvailableAndUserId(movieId, true, userId);
     }
 
     //get id of seats selected by the user

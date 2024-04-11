@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface SeatRepository extends MongoRepository<Seat, ObjectId>{
-	List<Seat> findByMovieIdAndIsAvailableAndUserIdNot(String movieId, boolean isAvailable, String userId);
+	List<Seat> findByMovieIdAndIsAvailableAndUserId(String movieId, boolean isAvailable, String userId);
 }
