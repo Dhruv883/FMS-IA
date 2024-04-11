@@ -23,8 +23,18 @@ public class UserController {
       public ResponseEntity<User> signup(@RequestParam String fname, @RequestParam String lname,
                   @RequestParam String email, @RequestParam String phone, @RequestParam String password) {
 
-            return new ResponseEntity<User>(userService.createUser(fname, lname, email, password, phone),
+            return new ResponseEntity<User>(userService.createUser(fname, lname, email, phone, 
+                        password),
                         HttpStatus.CREATED);
+      }
+
+      @PostMapping("/login")
+      public ResponseEntity<User> login(@RequestParam String email, @RequestParam String password) {
+
+            User authUser = userService.loginUser(email, password);
+            if (authUser == null)
+                  return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<User>(authUser, HttpStatus.OK);
       }
 
 }
