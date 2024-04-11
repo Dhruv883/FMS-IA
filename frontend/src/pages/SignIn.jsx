@@ -5,8 +5,6 @@ export const SignIn = () => {
   const [isVisiblePass, setIsVisiblePass] = useState(false);
 
   const [data, setData] = useState({
-    fname: "",
-    lname: "",
     email: "",
     password: "",
   });
@@ -27,9 +25,27 @@ export const SignIn = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(data);
+    const formData = new FormData();
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+
+    try {
+      const res = await fetch("http://localhost:8080/api/user/login", {
+        method: "POST",
+        body: formData,
+      });
+      if (!res.ok) {
+        throw new Error("Failed to login");
+      }
+      const data = await res.json();
+      localStorage.setItem("user", JSON.stringify(data));
+
+      window.location.href = "/";
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -48,42 +64,6 @@ export const SignIn = () => {
           </p>
         </div>
         <form className="flex flex-col gap-6 w-2/3" onSubmit={handleSubmit}>
-          <div className="flex gap-5">
-            <Input
-              isRequired={true}
-              type="text"
-              label="First Name"
-              labelPlacement="inside"
-              size="sm"
-              color="primary"
-              variant="bordered"
-              classNames={{
-                label: "after:content-['] text-white",
-                input: "text-white",
-                inputWrapper: ["border-2", "hover:border-darkYellow"],
-              }}
-              value={data.fname}
-              name="fname"
-              onChange={handleInputChange}
-            />
-            <Input
-              isRequired
-              type="text"
-              label="Last Name"
-              labelPlacement="inside"
-              size="sm"
-              color="primary"
-              variant="bordered"
-              classNames={{
-                label: "after:content-['] text-white",
-                input: "text-white",
-                inputWrapper: ["border-2", "hover:border-darkYellow"],
-              }}
-              value={data.lname}
-              name="lname"
-              onChange={handleInputChange}
-            />
-          </div>
           <Input
             isRequired
             type="email"

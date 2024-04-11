@@ -29,10 +29,6 @@ public class UserService {
                   return null;
             }
 
-            if (!user.getPassword().equals(password)) {
-                  return null;
-            }
-
             return user;
 
       }

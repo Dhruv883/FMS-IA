@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST })
 public class UserController {
 
       @Autowired
@@ -23,7 +24,7 @@ public class UserController {
       public ResponseEntity<User> signup(@RequestParam String fname, @RequestParam String lname,
                   @RequestParam String email, @RequestParam String phone, @RequestParam String password) {
 
-            return new ResponseEntity<User>(userService.createUser(fname, lname, email, phone, 
+            return new ResponseEntity<User>(userService.createUser(fname, lname, email, phone,
                         password),
                         HttpStatus.CREATED);
       }

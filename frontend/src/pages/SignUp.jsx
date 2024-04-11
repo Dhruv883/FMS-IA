@@ -41,9 +41,26 @@ export const SignUp = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(data);
+
+    const formData = new FormData();
+    formData.append("fname", data.fname);
+    formData.append("lname", data.lname);
+    formData.append("email", data.email);
+    formData.append("phone", data.phone);
+    formData.append("password", data.password);
+
+    try {
+      await fetch("http://localhost:8080/api/user/signup", {
+        method: "POST",
+        body: formData,
+      });
+
+      window.location.href = "/signin";
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
