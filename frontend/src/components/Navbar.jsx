@@ -48,7 +48,11 @@ export default function App() {
               />
             </div>
           </DropdownTrigger>
-          <DropdownMenu aria-label="Profile Actions" variant="flat">
+          <DropdownMenu
+            aria-label="Profile Actions"
+            variant="flat"
+            className="text-black"
+          >
             <DropdownItem key="settings">My Settings</DropdownItem>
             <DropdownItem key="bookings">Bookings</DropdownItem>
             <DropdownItem key="help">Help & Feedback</DropdownItem>
