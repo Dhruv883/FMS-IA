@@ -1,0 +1,71 @@
+body{
+    padding-top: 10vh;
+    padding-left:0.8vw
+}
+
+.cards{
+    /* background-color: aqua; */
+    /* margin: 1.5vw; */
+    border-radius: 5%;
+    width: 30vw;
+    height: 75vh;
+}
+
+.movieCard{
+    background-color: white;
+    margin: auto;
+    width: 60vmin;
+    height: 70vmin;
+    border-radius: 5%;
+    /* padding-top: 2vh; */
+}
+
+.heading{
+    margin-top: 2vh;
+    margin-left: 1vh;
+    /* color: black; */
+    font-size: 8vmin;
+}
+
+.image{
+    background-color: black;
+    width: 100%;
+    height: 52vmin; /* Adjust height as needed */
+    border-radius: 5% 5% 0 0;
+    overflow: hidden;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the container */
+  }
+
+
+
+.movieRow{
+    display: flex;
+    justify-content: space-between;
+    padding: 1%;
+}
+
+.title, .bookNow{
+    margin-top: 2vh;
+    text-align: center;
+    font-size: 3vmin;
+    color: black;
+}
+
+.bookNow{
+    /* background-color: red; */
+    margin: auto;
+    margin-top: 2vh;
+}
+
+button{
+    border: 1px solid;
+    border-radius: 10%;
+    padding: 2vw;
+    width: 20vmin;
+    height: 8vmin;
+}
