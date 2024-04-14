@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
 import '../styles/MovieBookingPage.css'
 import { Button } from '@nextui-org/react'
 import SeatSelectionModal from '../components/SeatSelectionModal.jsx'
@@ -10,17 +10,26 @@ const MovieBooking = () => {
     Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => false))
   )
 
-  const bookedSeats = [
-    [false, false, false, false, true, false, false, false, false],
-    [false, false, true, false, true, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false],
-    [false, false, true, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, true, true],
-    [false, false, false, false, false, false, true, true, false],
-    [false, false, false, false, false, false, false, true, true],
-    [false, false, false, false, false, false, false, false, false]
-  ]
+  const [bookedSeats, setBookedSeats] = useState(() => {
+    const storedSeats = localStorage.getItem('bookedSeats')
+    return storedSeats
+      ? JSON.parse(storedSeats)
+      : [
+          [false, false, false, false, true, false, false, false, false],
+          [false, false, true, false, true, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false],
+          [false, false, true, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, true, true],
+          [false, false, false, false, false, false, true, true, false],
+          [false, false, false, false, false, false, false, true, true],
+          [false, false, false, false, false, false, false, false, false]
+        ]
+  })
+
+  useEffect(() => {
+    localStorage.setItem('bookedSeats', JSON.stringify(bookedSeats))
+  }, [bookedSeats])
 
   const price = 20
 
@@ -59,37 +68,19 @@ const MovieBooking = () => {
     }
   }
 
-  const handleBookNow = async () => {
-    const selectedSeatIds = getSelectedSeatIds()
-    if (selectedSeatIds.length === 0) {
-      alert('Please select at least one seat.')
-      return
-    }
-
-    try {
-      const response = await fetch('/api/user/seats/book', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          seatIds: selectedSeatIds,
-          userId: 'user123' //fetch uesr id
-        })
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to book seats.')
-      }
-
-      const data = await response.json()
-      console.log(data)
-
-      window.location.href = '/confirm-seat'
-    } catch (error) {
-      console.error('Error booking seats:', error)
-      alert('Failed to book seats. Please try again.')
-    }
+  const handleBookNow = () => {
+    // Update booked seats
+    const updatedSeats = seats.map((row, rowIndex) =>
+      row.map((seat, colIndex) =>
+        seat ? true : bookedSeats[rowIndex][colIndex]
+      )
+    )
+    setBookedSeats(updatedSeats)
+    setShowModal(false)
+    setSeats(
+      Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => false))
+    )
+    alert('Seats booked successfully!')
   }
 
   return (

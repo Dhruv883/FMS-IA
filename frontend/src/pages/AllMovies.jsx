@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import Cards from "../components/Cards";
 import "../styles/AllMoviesPage.css";
 
