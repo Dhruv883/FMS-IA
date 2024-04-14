@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react'
 import '../styles/MovieBookingPage.css'
 import { Button } from '@nextui-org/react'
 import SeatSelectionModal from '../components/SeatSelectionModal.jsx'
+import { useLocation } from 'react-router-dom'
 
 const MovieBooking = () => {
-  const selectedMovie = 'Shinchan'
+  const location = useLocation()
+  const { title } = location.state
   const [showModal, setShowModal] = useState(false)
   const [seats, setSeats] = useState(
     Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => false))
@@ -97,8 +99,8 @@ const MovieBooking = () => {
           <div className='name-date'>
             <div className='name'>
               <div style={{ minHeight: '13px' }}></div>
-              <div className='name-field'>Movie Name</div>
-              <div className='movie-name'>{selectedMovie}</div>
+              <div className='name-field'></div>
+              <div className='movie-name'>{title}</div>
             </div>
           </div>
           <div className='book-btn'>
