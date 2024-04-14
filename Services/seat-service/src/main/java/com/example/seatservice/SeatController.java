@@ -1,67 +1,39 @@
 package com.example.seatservice;
 
-import java.util.List;
-
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.http.HttpMethod;
-
-import com.example.movieservice.Movie;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@RestController
-@RequestMapping("api/seats")
-public class SeatController {
+import java.util.List;
 
-    @Getter
-    @Setter
-    public class BookSeatsRequest {
-        private List<String> seatIds;
-        private String userId;
-        private String movieId;
-    }
+@RestController
+@RequestMapping("/api/seats")
+public class SeatController {
 
     @Autowired
     private SeatService seatService;
 
-    @Autowired
-    private RestTemplate restTemplate;
-
-    // available seats
-    //tried to recieve data from movie service. added movie service in dependency
-
-    public List<Seat> getAvailableSeats(@PathVariable String movieId) {
-        // Call user-service to fetch the userId
-        ResponseEntity<String> userResponse = restTemplate.exchange("http://localhost:8080/api/user", HttpMethod.GET, null, String.class);
-        String userId = userResponse.getBody();
-
-        // Call movie-service to fetch the movie details
-        ResponseEntity<Movie> movieResponse = restTemplate.exchange("http://localhost:8083/api/movies" + movieId, HttpMethod.GET, null, Movie.class);
-        Movie movie = movieResponse.getBody();
-
-        
-        return seatService.getAvailableSeatsForMovie(movieId, userId);
+    @GetMapping("/available/{movieId}")
+    public ResponseEntity<List<Seat>> getAvailableSeats(@PathVariable String movieId) {
+        List<Seat> availableSeats = seatService.getAvailableSeatsForMovie(movieId);
+        return ResponseEntity.ok(availableSeats);
     }
 
-    @PostMapping("/book") // Add the movieId path variable
-    public List<Seat> bookSeats(@RequestBody BookSeatsRequest request) {
-
-        String userId = request.getUserId();
-        String movieId = request.getMovieId();
-        // Convert the String movieId to ObjectId
-        ObjectId movieObjectId = new ObjectId(movieId);
-
-        // Call the SeatService method to book seats
-        return seatService.bookSeats(request.getSeatIds(), userId, movieObjectId);
+    @PostMapping("/book")
+    public ResponseEntity<List<Seat>> bookSeats(@RequestBody BookSeatsRequest request) {
+        List<Seat> bookedSeats = seatService.bookSeats(request.getSeatIds(), request.getUserId(), request.getMovieId());
+        return ResponseEntity.ok(bookedSeats);
     }
 
+    @Getter
+    @Setter
+    public static class BookSeatsRequest {
+        private List<String> seatIds;
+        private String userId;
+        private String movieId;
+    }
 }
+

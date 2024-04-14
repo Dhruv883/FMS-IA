@@ -22,19 +22,4 @@ public class MovieController {
     public Movie getMovieById(@PathVariable ObjectId id) {
         return movieService.getMovieById(id);
     }
-
-    @PostMapping
-    public Movie addMovie(@RequestBody Movie movie) {
-        return movieService.addMovie(movie);
-    }
-
-    @PutMapping("/{id}")
-    public Movie updateMovie(@PathVariable ObjectId id, @RequestBody Movie movieDetails) {
-        return movieService.updateMovie(id, movieDetails);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteMovie(@PathVariable ObjectId id) {
-        movieService.deleteMovie(id);
-    }
 }
