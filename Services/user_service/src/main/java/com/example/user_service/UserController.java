@@ -15,37 +15,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 @CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST })
 public class UserController {
 
-      @Autowired
-      private UserService userService;
+	@Autowired
+	private UserService userService;
 
-      @GetMapping("/")
-      public ResponseEntity<List<User>> getAllUsers() {
-            return new ResponseEntity<List<User>>(userService.allUsers(), HttpStatus.OK);
-      }
+	@GetMapping("/")
+	public ResponseEntity<List<User>> getAllUsers() {
+		return new ResponseEntity<List<User>>(userService.allUsers(), HttpStatus.OK);
+	}
 
-      @PostMapping("/signup")
-      public ResponseEntity<User> signup(@RequestParam String fname, @RequestParam String lname,
-                  @RequestParam String email, @RequestParam String phone, @RequestParam String password) {
+	@PostMapping("/signup")
+	public ResponseEntity<User> signup(@RequestParam String fname, @RequestParam String lname, @RequestParam String email, @RequestParam String phone, @RequestParam String password) {
+		return new ResponseEntity<User>(userService.createUser(fname, lname, email, phone, password), HttpStatus.CREATED);
+	}
 
-            return new ResponseEntity<User>(userService.createUser(fname, lname, email, phone,
-                        password),
-                        HttpStatus.CREATED);
-      }
+	@PostMapping("/login")
+	public ResponseEntity<User> login(@RequestParam String email, @RequestParam String password) {
 
-      @PostMapping("/login")
-      public ResponseEntity<User> login(@RequestParam String email, @RequestParam String password) {
+		User authUser = userService.loginUser(email, password);
+		if (authUser == null)
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<User>(authUser, HttpStatus.OK);
+	}
 
-            User authUser = userService.loginUser(email, password);
-            if (authUser == null)
-                  return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            return new ResponseEntity<User>(authUser, HttpStatus.OK);
-      }
-
-      @GetMapping("/{id}")
-      public ResponseEntity<User> userDetails(@PathVariable ObjectId id) {
-            User user = userService.getDetails(id);
-            if (user == null)
-                  return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            return new ResponseEntity<User>(user, HttpStatus.OK);
-      }
+	@GetMapping("/{id}")
+	public ResponseEntity<User> userDetails(@PathVariable ObjectId id) {
+		User user = userService.getDetails(id);
+		if (user == null)
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
 }
