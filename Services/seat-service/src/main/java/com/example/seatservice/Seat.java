@@ -5,6 +5,7 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,9 +16,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Seat {
     @Id
-    private ObjectId seatId;
+    @Field("id")
+    private ObjectId id;
+    
+    @Field("userId")
     private String userId;
-    private String movieId;
+    
+    @Field("movieId")
+    private ObjectId movieId;
+    
+    @Field("seatNumber")
     private List<String> seatNumber;
-	private boolean isAvailable;
+    
+    @Field("isAvailable")
+    private boolean isAvailable;
 }
