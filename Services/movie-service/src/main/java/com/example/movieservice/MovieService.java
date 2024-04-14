@@ -1,6 +1,5 @@
 package com.example.movieservice;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ public class MovieService {
     }
 
     // Fetch a movie by its ID
-    public Movie getMovieById(ObjectId id) {
+    public Movie getMovieById(String id) {
         return movieRepository.findById(id).orElse(null);
     }
 }

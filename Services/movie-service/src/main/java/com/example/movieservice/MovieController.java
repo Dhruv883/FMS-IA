@@ -1,12 +1,12 @@
 package com.example.movieservice;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST })
 @RequestMapping("/api/movies")
 public class MovieController {
 
@@ -19,7 +19,7 @@ public class MovieController {
     }
 
     @GetMapping("/{id}")
-    public Movie getMovieById(@PathVariable ObjectId id) {
+    public Movie getMovieById(@PathVariable String id) {
         return movieService.getMovieById(id);
     }
 }

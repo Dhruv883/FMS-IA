@@ -36,7 +36,7 @@
 .seating {
   display: flex;
   flex-direction: column;
-  height: 60vh;
+  height: 50vh;
   justify-content: space-evenly;
   align-items: center;
 }
