@@ -2,7 +2,7 @@ package com.example.movieservice;
 
 import java.util.List;
 
-import org.bson.types.ObjectId;
+// import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,7 +15,7 @@ import lombok.Setter;
 public class Movie {
 	
 	@Id
-	private ObjectId id;
+	private String id;
     private String imdbId;
     private String title;
     private String releaseDate;
